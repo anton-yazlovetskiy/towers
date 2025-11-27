@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* --- ARMY COLORS (High Contrast) --- */
-            --p1: #ecf0f1; --p1-t: #2c3e50; --p1-b: #bdc3c7; /* White/Steel */
-            --p2: #e74c3c; --p2-t: #fff;    --p2-b: #c0392b; /* Red */
-            --p3: #2ecc71; --p3-t: #fff;    --p3-b: #27ae60; /* Emerald */
-            --p4: #f39c12; --p4-t: #fff;    --p4-b: #d35400; /* Orange/Gold */
+            /* --- ARMY COLORS --- */
+            --p1: #ecf0f1; --p1-t: #2c3e50; --p1-b: #bdc3c7; 
+            --p2: #e74c3c; --p2-t: #fff;    --p2-b: #c0392b; 
+            --p3: #2ecc71; --p3-t: #fff;    --p3-b: #27ae60; 
+            --p4: #f39c12; --p4-t: #fff;    --p4-b: #d35400; 
             
             /* --- BASE VARIABLES --- */
-            --accent: #e67e22; /* Orange for text visibility */
+            --accent: #e67e22; 
             --danger: #e74c3c; 
             --success: #27ae60;
             --special: #9b59b6;
@@ -45,7 +45,7 @@
             --shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* --- THEME: FUTURE (Optional toggle) --- */
+        /* --- THEME: FUTURE --- */
         body.theme-future {
             --font: 'Orbitron', sans-serif;
             --accent: #00e5ff;
@@ -67,7 +67,7 @@
         }
         @keyframes toast-in { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- LAYOUT --- */
+        /* --- LAYOUT GRID (DESKTOP DEFAULT) --- */
         #game-layout {
             display: grid;
             grid-template-columns: 320px 1fr 320px;
@@ -79,21 +79,17 @@
         .top-bar { grid-column: 1 / -1; background: var(--panel); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 2px solid rgba(128,128,128,0.1); z-index: 100; }
         .badge { font-weight: 800; padding: 6px 16px; border-radius: 20px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; border: 2px solid transparent; background: rgba(128,128,128,0.1);}
         
+        .header-actions { display: flex; align-items: center; gap: 10px; }
         .header-btn {
-            background: rgba(128,128,128,0.1); color: var(--text); border: none; width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(128,128,128,0.1); color: var(--text); border: none; width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
         }
-        .header-btn:hover { background: var(--danger); color: white; transform: rotate(90deg); }
+        .header-btn:hover { background: var(--accent); color: white; }
+        .btn-exit:hover { background: var(--danger); transform: rotate(90deg); }
 
-        /* SIDEBARS */
+        /* SIDEBARS & PANELS */
         .card-panel { background: var(--panel); padding: 0; overflow-y: hidden; border-right: 2px solid rgba(128,128,128,0.1); border-left: 2px solid rgba(128,128,128,0.1); display: flex; flex-direction: column; }
         .rules-content { padding: 15px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 15px; scrollbar-width: thin; }
-        
-        /* SETTINGS AREA (Bottom Left) */
-        .settings-dock {
-            padding: 15px; border-top: 1px solid rgba(128,128,128,0.2);
-            display: flex; justify-content: space-around; background: rgba(0,0,0,0.05);
-        }
         
         .rule-card { background: rgba(128,128,128,0.08); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(128,128,128,0.1); }
         .card-header { background: rgba(128,128,128,0.1); padding: 8px 12px; font-weight: 700; color: var(--accent); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; }
@@ -118,7 +114,6 @@
         .cell.setup-valid { box-shadow: inset 0 0 0 2px var(--success); background: rgba(39, 174, 96, 0.2); }
         .cell.selected { background: rgba(255, 255, 255, 0.3) !important; }
 
-        /* Refresh Button */
         .refresh-btn {
             position: absolute; bottom: 10px; right: 10px;
             background: rgba(128,128,128,0.5); color: #fff; border: none;
@@ -126,47 +121,36 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.2s;
         }
-        .refresh-btn:hover { background: var(--accent); color: #000; transform: rotate(180deg); }
 
-        /* --- INDICATORS --- */
-        .indicator {
-            position: absolute; inset: 20%; border-radius: 50%; opacity: 0.8; z-index: 25; pointer-events: none;
-            animation: pulse 1.5s infinite;
-        }
-        .indicator.ind-move { background: var(--success); opacity: 0.3; }
-        .indicator.ind-attack { inset: 0; background: transparent; border: 4px solid var(--danger); animation: pulse-fast 0.5s infinite; }
-        .indicator.ind-special { inset: 10%; background: transparent; border: 2px dashed var(--special); }
-
-        /* --- PIECES --- */
+        /* --- PIECES & INDICATORS --- */
         .piece {
             width: 80%; height: 80%; position: absolute; top: 10%; left: 10%;
             display: flex; align-items: center; justify-content: center;
             font-family: 'Material Icons'; font-size: clamp(16px, 4vmin, 32px);
             border-radius: 50%; cursor: pointer; z-index: 10;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
-            border-width: 5px; border-style: solid;
+            transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.4); border-width: 5px; border-style: solid;
         }
         .piece.active-glow { z-index: 20; animation: bounce 1s infinite; border-width: 3px !important; box-shadow: 0 0 15px var(--accent); }
-        
+        .piece.cooldown { filter: grayscale(1) opacity(0.7); }
+        .piece.cooldown::after { content: 'hourglass_bottom'; font-family: 'Material Icons'; font-size: 12px; position: absolute; bottom: -8px; right: -8px; background: #333; color: #fff; padding: 2px; border-radius: 50%; border: 1px solid #fff; }
+
         @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        
-        .ghost {
-            opacity: 1; z-index: 15; pointer-events: none; filter: grayscale(1);
-            animation: ghostAnim 0.6s forwards ease-out;
-        }
+        .ghost { opacity: 1; z-index: 15; pointer-events: none; filter: grayscale(1); animation: ghostAnim 0.6s forwards ease-out; }
         @keyframes ghostAnim { 0% { transform: scale(1); opacity: 0.8; background: var(--danger); } 100% { transform: scale(1.5); opacity: 0; filter: blur(4px); } }
 
-        /* Shapes & Colors */
         .type-P::before { content: 'circle'; font-size: 0.8em; }
         .type-V { border-radius: 15%; } .type-V::before { content: 'star'; font-size: 1.1em; }
         .type-T { border-radius: 4px; } .type-T::before { content: 'fort'; }
         
-        /* Updated Army Colors */
         .p1 { background: var(--p1-t); color: var(--p1); border-color: var(--p1); }
         .p2 { background: var(--p2); color: var(--p2-t); border-color: var(--p2-b); }
         .p3 { background: var(--p3); color: var(--p3-t); border-color: var(--p3-b); }
         .p4 { background: var(--p4); color: var(--p4-t); border-color: var(--p4-b); }
+
+        .indicator { position: absolute; inset: 20%; border-radius: 50%; opacity: 0.8; z-index: 25; pointer-events: none; animation: pulse 1.5s infinite; }
+        .indicator.ind-move { background: var(--success); opacity: 0.3; }
+        .indicator.ind-attack { inset: 0; background: transparent; border: 4px solid var(--danger); animation: pulse-fast 0.5s infinite; }
+        .indicator.ind-special { inset: 10%; background: transparent; border: 2px dashed var(--special); }
 
         /* --- CONTROLS --- */
         .controls-area { grid-column: 2; grid-row: 3; display: flex; justify-content: center; align-items: center; gap: 20px; background: var(--panel); border-top: 2px solid rgba(128,128,128,0.1); }
@@ -184,56 +168,113 @@
         .btn-blue { background: #2980b9; color: #fff; }
         .btn-icon-only { padding: 10px; width: 44px; justify-content: center; background: rgba(128,128,128,0.15); }
 
-        /* --- MODAL & FORM --- */
+        /* --- MODAL --- */
         #modal, #modal-win { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-box { background: var(--panel); padding: 35px; border-radius: var(--radius); width: 340px; text-align: center; border: 1px solid rgba(128,128,128,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        
-        select {
-            appearance: none; -webkit-appearance: none;
-            width: 100%; padding: 18px; margin: 10px 0 25px 0;
-            background: rgba(128,128,128,0.1); color: var(--text);
-            border: 1px solid rgba(128,128,128,0.3); border-radius: 8px;
-            font-family: var(--font); font-size: 1.1rem; cursor: pointer;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em;
-        }
-        
-        .check-label {
-            display: flex; justify-content: space-between; align-items: center;
-            width: 100%; padding: 15px; margin: 10px 0 20px 0;
-            cursor: pointer; user-select: none; background: rgba(128,128,128,0.05); border-radius: 8px;
-        }
-        .check-label input { width: 24px; height: 24px; cursor: pointer; }
-
+        select { width: 100%; padding: 18px; margin: 10px 0 25px 0; background: rgba(128,128,128,0.1); color: var(--text); border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; font-size: 1.1rem; }
+        .check-label { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 15px; margin: 10px 0 20px 0; background: rgba(128,128,128,0.05); border-radius: 8px; }
         .win-title { font-size: 2rem; color: var(--accent); margin-bottom: 20px; font-weight: 800; }
 
-        /* --- FOOTER / COPYRIGHT --- */
-        #copyright {
-            position: absolute; bottom: 10px; right: 15px;
-            display: flex; align-items: center; gap: 8px;
-            color: #888; font-size: 0.7rem; z-index: 100;
+        /* --- MOBILE RULES BUTTON --- */
+        #mobile-rules-btn { display: none; width: 100%; padding: 12px; background: #222; color: var(--accent); border-bottom: 1px solid rgba(128,128,128,0.2); font-size: 0.85rem; font-weight: bold; cursor: pointer; text-align: center; user-select: none; }
+        #mobile-rules-btn:active { background: #333; }
+        
+        /* --- COPYRIGHT --- */
+        #copyright { position: absolute; bottom: 10px; right: 15px; display: flex; align-items: center; gap: 8px; color: #888; font-size: 0.7rem; z-index: 100; }
+        .mail-link { color: #888; text-decoration: none; } .mail-link:hover { color: var(--accent); }
+
+        /* =========================================================
+           MOBILE ADAPTATION (Vertical Stack Module - REDESIGNED)
+           ========================================================= */
+        @media (max-width: 900px) {
+            /* 1. RESET GRID TO FLEX COLUMN */
+            #game-layout {
+                display: flex !important; /* Force flex */
+                flex-direction: column !important;
+                grid-template-columns: none !important;
+                grid-template-rows: none !important;
+                width: 100%;
+                height: 100vh;
+                overflow-x: hidden;
+            }
+
+            /* 2. ORDERING (VISUAL FLOW) */
+            .top-bar { order: 1; flex: 0 0 60px; width: 100%; }
+            
+            /* Controls moved under header */
+            .controls-area { 
+                order: 2; 
+                width: 100%;
+                flex: 0 0 auto; 
+                padding: 10px 5px;
+                border-top: none;
+                border-bottom: 1px solid rgba(128,128,128,0.15);
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .controls-area button { padding: 10px 16px; font-size: 0.8rem; flex-grow: 1; justify-content: center; }
+
+            /* Mobile Toggle Button */
+            #mobile-rules-btn { order: 3; display: block; }
+
+            /* Panels (Hidden by default, expandable) */
+            .card-panel {
+                order: 4;
+                width: 100%;
+                border: none;
+                display: none; /* Collapsed */
+                flex: 0 0 auto;
+                background: #1a1a1a;
+                border-bottom: 1px solid #333;
+            }
+            
+            /* Visible State for Rules */
+            .card-panel.show-rules {
+                display: block;
+                max-height: 40vh;
+                overflow-y: auto;
+            }
+
+            /* Settings inside panels - hide them, they are in header now */
+            .settings-dock { display: none !important; }
+
+            /* BOARD (The Hero Element) */
+            .board-wrapper {
+                order: 5;
+                flex: 1 1 auto; /* Grow to fill space */
+                width: 100%;
+                display: flex;
+                align-items: flex-start; /* Align top to avoid hiding if screen small */
+                justify-content: center;
+                padding: 10px 0;
+                background: var(--bg);
+                overflow: hidden; /* Prevent scroll inside board wrapper */
+            }
+
+            .board {
+                /* SQUARE RESPONSIVE SIZE */
+                width: 94vw; 
+                height: 94vw; 
+                max-width: 500px;
+                max-height: 500px;
+                margin: 0 auto;
+            }
+
+            /* Footer */
+            #copyright {
+                order: 6;
+                position: static;
+                width: 100%;
+                padding: 10px;
+                justify-content: center;
+                background: var(--bg);
+                flex: 0 0 auto;
+            }
         }
-        #copyright span:hover { color: #ccc; cursor: help; }
-        .tooltip {
-            position: absolute; bottom: 25px; right: 0;
-            background: var(--panel); color: var(--text); padding: 10px; width: 250px;
-            border-radius: 4px; font-size: 0.75rem; display: none; text-align: left;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); pointer-events: none; border: 1px solid rgba(128,128,128,0.2);
-        }
-        #copyright span:hover + .tooltip { display: block; }
-        .mail-link { color: #888; text-decoration: none; transition: 0.2s; }
-        .mail-link:hover { color: var(--accent); transform: scale(1.2); }
 
         @keyframes pulse { 0%, 100% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1); opacity: 0.8; } }
         @keyframes pulse-fast { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-        @media (max-width: 900px) {
-            #game-layout { grid-template-columns: 1fr; grid-template-rows: 60px 1fr auto auto; overflow-y: auto; display: flex; flex-direction: column; }
-            .card-panel { display: none; }
-            .board-wrapper { flex-grow: 1; padding: 15px 0; min-height: 50vh; }
-            .controls-area { padding: 15px; min-height: 80px; }
-            #copyright { position: relative; bottom: auto; right: auto; justify-content: center; margin-bottom: 10px; }
-        }
     </style>
 </head>
 <body class="mode-dark">
@@ -243,24 +284,20 @@
 <div id="modal">
     <div class="modal-box">
         <h2 style="color:var(--accent); margin-top:0">НАСТРОЙКИ</h2>
-        
         <select id="s-players">
             <option value="2">2 Игрока (Дуэль)</option>
             <option value="3">3 Игрока (FFA)</option>
             <option value="4">4 Игрока (Chaos)</option>
         </select>
-        
         <select id="s-size">
             <option value="8">Поле 8 x 8</option>
             <option value="10" selected>Поле 10 x 10</option>
             <option value="12">Поле 12 x 12</option>
         </select>
-        
         <label class="check-label">
             <span style="font-weight:bold; color:var(--text)">Агрессивный режим</span>
             <input type="checkbox" id="s-aggro">
         </label>
-        
         <button class="btn-green" style="width:100%; justify-content:center; padding:18px; font-size:1.1rem" onclick="Game.start()">В БОЙ</button>
     </div>
 </div>
@@ -276,17 +313,32 @@
 <div id="game-layout" style="display:none">
     <div class="top-bar">
         <div id="badge" class="badge p1">Игрок 1</div>
-        <div style="font-weight:700; font-size:0.9rem; opacity:0.7" id="phase-msg">ПОДГОТОВКА</div>
-        
-        <div style="display:flex; align-items:center; gap:15px">
-             <div style="font-family:monospace; font-size:1.1em; opacity:0.8">ХОД: <span id="turn-cnt">1</span></div>
-             <button class="header-btn" onclick="location.reload()" title="Выход">
-                 <span class="material-icons">close</span>
-             </button>
+        <div class="header-actions">
+            <button class="header-btn" onclick="Game.toggleAudio()" title="Звук">
+                <span class="material-icons" id="icon-sound" style="font-size:20px">volume_up</span>
+            </button>
+            <button class="header-btn" onclick="Game.toggleTheme()" title="Стиль">
+                <span class="material-icons" style="font-size:20px">palette</span>
+            </button>
+            <button class="header-btn" onclick="Game.toggleMode()" title="Свет/Тень">
+                <span class="material-icons" style="font-size:20px">brightness_6</span>
+            </button>
+            <div style="width:1px; height:24px; background:rgba(128,128,128,0.3); margin:0 5px"></div>
+            <div style="font-family:monospace; font-size:1.1em; opacity:0.8; margin-right:5px">ХОД: <span id="turn-cnt">1</span></div>
+            <button class="header-btn btn-exit" onclick="location.reload()" title="Выход">
+                <span class="material-icons" style="font-size:20px">close</span>
+            </button>
         </div>
     </div>
 
-    <div class="card-panel">
+    <div id="controls" class="controls-area"></div>
+
+    <div id="mobile-rules-btn" onclick="View.toggleMobileRules()">
+        <span class="material-icons" style="vertical-align:middle; font-size:18px; margin-right:8px">menu_book</span>
+        ПРАВИЛА И ИНФО (Показать/Скрыть)
+    </div>
+
+    <div class="card-panel" id="panel-left">
         <div class="rules-content">
             <div style="opacity:0.6; font-size:0.7rem; text-align:center; padding-bottom:5px; border-bottom:1px solid rgba(128,128,128,0.2)">
                 ЦЕЛЬ: УНИЧТОЖИТЬ БАШНИ ВРАГОВ
@@ -311,20 +363,9 @@
                 <div class="card-body">
                     <p>Потеря всех башен = крах.</p>
                     <p>Двигается, жертвуя союзником.</p>
+                    <p><span class="hl">Подкрепление:</span> Если Офицер убит, Башня спавнит Рядового (КД 1 ход).</p>
                 </div>
             </div>
-        </div>
-        
-        <div class="settings-dock">
-            <button class="btn-icon-only" onclick="Game.toggleAudio()" title="Звук Вкл/Выкл">
-                <span class="material-icons" id="icon-sound">volume_up</span>
-            </button>
-            <button class="btn-icon-only" onclick="Game.toggleMode()" title="День / Ночь">
-                <span class="material-icons">brightness_6</span>
-            </button>
-             <button class="btn-icon-only" onclick="Game.toggleTheme()" title="Стиль: Стандарт / Киберпанк">
-                <span class="material-icons">palette</span>
-            </button>
         </div>
     </div>
 
@@ -335,12 +376,12 @@
         </button>
     </div>
 
-    <div class="card-panel">
+    <div class="card-panel" id="panel-right">
         <div class="rules-content">
             <div class="rule-card" style="border-color: var(--danger)">
                 <div class="card-header" style="color:var(--danger)">КЛЕЩИ</div>
                 <div class="card-body">
-                    <p>2 рядовых окружают Офицера -> Офицер мертв, рядовые сливаются.</p>
+                    <p>2 рядовых окружают Офицера -> Офицер мертв. Один атакующий жертвуется, второй повышается до Офицера.</p>
                 </div>
             </div>
             <div class="rule-card" style="border-color: var(--accent)">
@@ -360,16 +401,11 @@
             </div>
         </div>
     </div>
-
-    <div id="controls" class="controls-area"></div>
 </div>
 
 <div id="copyright">
     <span>© 2025 CC BY-NC 4.0</span>
-    <div class="tooltip">
-        Эта работа лицензирована по CC BY-NC 4.0. Разрешено копирование и адаптация для некоммерческих целей. Коммерческое использование требует разрешения автора.
-    </div>
-    <a href="mailto:anton.yazlovetskiy@gmail.com" class="mail-link" title="anton.yazlovetskiy@gmail.com">
+    <a href="mailto:anton.yazlovetskiy@gmail.com" class="mail-link" title="Contact">
         <span class="material-icons" style="font-size:16px">mail</span>
     </a>
 </div>
@@ -377,11 +413,9 @@
 <script>
 /* --- AUDIO ENGINE --- */
 const AudioEngine = {
-    ctx: null,
-    muted: false,
+    ctx: null, muted: false, noiseBuffer: null,
     
     init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
-    
     createNoiseBuffer() {
         if (!this.ctx) return null;
         const bufferSize = this.ctx.sampleRate * 2.0; 
@@ -390,7 +424,6 @@ const AudioEngine = {
         for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
         return buffer;
     },
-
     play(type) {
         if (this.muted) return;
         if (!this.ctx) this.init();
@@ -398,50 +431,27 @@ const AudioEngine = {
         if (!this.noiseBuffer) this.noiseBuffer = this.createNoiseBuffer();
         
         const t = this.ctx.currentTime;
-
         if (type === 'move') {
-            // Short dry click (Percussive, no sci-fi tail)
-            const osc = this.ctx.createOscillator();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(200, t);
-            osc.frequency.exponentialRampToValueAtTime(50, t + 0.05); // Very fast decay
-            
-            const g = this.ctx.createGain();
-            g.gain.setValueAtTime(0.5, t);
-            g.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
-            
-            osc.connect(g); g.connect(this.ctx.destination);
-            osc.start(t); osc.stop(t + 0.06);
-        } 
-        else if (type === 'attack') {
-            // Crumble sound
-            const noise = this.ctx.createBufferSource();
-            noise.buffer = this.noiseBuffer;
-            const filter = this.ctx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(600, t);
-            filter.frequency.linearRampToValueAtTime(100, t + 0.2);
-            const gain = this.ctx.createGain();
-            gain.gain.setValueAtTime(0.6, t);
-            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
-            noise.connect(filter); filter.connect(gain); gain.connect(this.ctx.destination);
-            noise.start(t); noise.stop(t + 0.25);
-        }
-        else if (type === 'special') {
-            const osc = this.ctx.createOscillator();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(400, t);
-            osc.frequency.linearRampToValueAtTime(800, t + 0.1);
-            const g = this.ctx.createGain();
-            g.gain.setValueAtTime(0.1, t);
-            g.gain.linearRampToValueAtTime(0, t + 0.15);
-            osc.connect(g); g.connect(this.ctx.destination);
-            osc.start(t); osc.stop(t + 0.15);
+            const osc = this.ctx.createOscillator(); osc.type = 'triangle';
+            osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(50, t + 0.05);
+            const g = this.ctx.createGain(); g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
+            osc.connect(g); g.connect(this.ctx.destination); osc.start(t); osc.stop(t + 0.06);
+        } else if (type === 'attack') {
+            const noise = this.ctx.createBufferSource(); noise.buffer = this.noiseBuffer;
+            const filter = this.ctx.createBiquadFilter(); filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(600, t); filter.frequency.linearRampToValueAtTime(100, t + 0.2);
+            const gain = this.ctx.createGain(); gain.gain.setValueAtTime(0.6, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+            noise.connect(filter); filter.connect(gain); gain.connect(this.ctx.destination); noise.start(t); noise.stop(t + 0.25);
+        } else if (type === 'special') {
+            const osc = this.ctx.createOscillator(); osc.type = 'sine';
+            osc.frequency.setValueAtTime(400, t); osc.frequency.linearRampToValueAtTime(800, t + 0.1);
+            const g = this.ctx.createGain(); g.gain.setValueAtTime(0.1, t); g.gain.linearRampToValueAtTime(0, t + 0.15);
+            osc.connect(g); g.connect(this.ctx.destination); osc.start(t); osc.stop(t + 0.15);
         }
     }
 };
 
-/* --- CORE LOGIC --- */
+/* --- LOGIC UTILS --- */
 const Utils = {
     uid: 0,
     getUid: () => `uid-${++Utils.uid}`,
@@ -451,6 +461,7 @@ const Utils = {
     deepCopy: (obj) => JSON.parse(JSON.stringify(obj))
 };
 
+/* --- STATE --- */
 const State = {
     cells: [], size: 10, players: 2, aggro: false,
     activePlayer: 1, turn: 1, phase: 'setup', 
@@ -460,7 +471,7 @@ const State = {
 
     init(s, p, a) {
         this.size = s; this.players = p; this.aggro = a;
-        this.cells = Array(s*s).fill(null).map(() => ({ type: 0, player: 0, uid: null }));
+        this.cells = Array(s*s).fill(null).map(() => ({ type: 0, player: 0, uid: null, cd: 0 }));
         this.activePlayersList = Array.from({length: p}, (_,i)=>i+1);
         this.turn = 1; this.activePlayer = 1; this.phase = 'setup';
         this.selected = null; this.mode = null;
@@ -470,13 +481,11 @@ const State = {
             this.setupMeta[pid] = { T:0, V:0 };
             this.passCounter[pid] = 0;
         });
-
         const fill = (pid, r0, c0) => {
             for(let r=0; r<4; r++) for(let c=0; c<3; c++) {
-                this.cells[Utils.idx(r0+r, c0+c, s)] = { type:'P', player:pid, uid: Utils.getUid() };
+                this.cells[Utils.idx(r0+r, c0+c, s)] = { type:'P', player:pid, uid: Utils.getUid(), cd:0 };
             }
         };
-
         fill(1, 0, 0);
         if (p === 2) fill(2, s-4, s-3);
         else {
@@ -492,35 +501,28 @@ const State = {
         if (this.phase !== 'game') return;
         const snapshot = {
             cells: Utils.deepCopy(this.cells),
-            activePlayer: this.activePlayer,
-            turn: this.turn,
-            passCounter: Utils.deepCopy(this.passCounter),
-            activePlayersList: Utils.deepCopy(this.activePlayersList)
+            activePlayer: this.activePlayer, turn: this.turn,
+            passCounter: Utils.deepCopy(this.passCounter), activePlayersList: Utils.deepCopy(this.activePlayersList)
         };
-        this.history.push(snapshot);
-        if (this.history.length > 10) this.history.shift();
+        this.history.push(snapshot); if (this.history.length > 10) this.history.shift();
     },
-    
     popHistory() {
         if (this.history.length === 0) return false;
         const prev = this.history.pop();
-        this.cells = prev.cells;
-        this.activePlayer = prev.activePlayer;
-        this.turn = prev.turn;
-        this.passCounter = prev.passCounter;
+        this.cells = prev.cells; this.activePlayer = prev.activePlayer;
+        this.turn = prev.turn; this.passCounter = prev.passCounter;
         this.activePlayersList = prev.activePlayersList;
-        this.selected = null; this.mode = null;
-        return true;
+        this.selected = null; this.mode = null; return true;
     }
 };
 
+/* --- LOGIC --- */
 const Logic = {
     getNeighbors(idx) {
         const {r, c} = Utils.coords(idx, State.size);
         const offsets = [[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[-1,1],[1,-1],[1,1]];
         return offsets.map(([dr, dc]) => Utils.idx(r+dr, c+dc, State.size)).filter(i => i !== -1);
     },
-
     getChainJumps(startIdx, currentIdx, visited = new Set()) {
         let jumps = [];
         const {r, c} = Utils.coords(currentIdx, State.size);
@@ -529,8 +531,7 @@ const Logic = {
             let destIdx = Utils.idx(r+dr, c+dc, State.size);
             let midIdx = Utils.idx(r+dr/2, c+dc/2, State.size);
             if (destIdx !== -1 && !visited.has(destIdx)) {
-                const dest = State.getCell(destIdx);
-                const mid = State.getCell(midIdx);
+                const dest = State.getCell(destIdx); const mid = State.getCell(midIdx);
                 if (mid.type !== 0 && dest.type === 0) {
                     if (State.aggro || mid.player === State.getCell(startIdx).player) {
                         jumps.push({ idx: destIdx, type: 'move' });
@@ -544,13 +545,9 @@ const Logic = {
         for (const j of jumps) { if (!seen.has(j.idx)) { unique.push(j); seen.add(j.idx); } }
         return unique;
     },
-
     getValidMoves(idx) {
-        const p = State.getCell(idx);
-        if (!p.type) return [];
-        const {r, c} = Utils.coords(idx, State.size);
-        let moves = [];
-
+        const p = State.getCell(idx); if (!p.type) return [];
+        const {r, c} = Utils.coords(idx, State.size); let moves = [];
         if (p.type === 'P') {
             for(let dr=-1; dr<=1; dr++) for(let dc=-1; dc<=1; dc++) {
                 if(!dr && !dc) continue;
@@ -565,14 +562,12 @@ const Logic = {
                         let hasOfficerSupport = neighbors.some(n => n!==idx && State.getCell(n).player === p.player && State.getCell(n).type === 'V');
                         if (hasOfficerSupport) moves.push({ idx: tIdx, type: 'attack' });
                     }
-                }
-                else if (t.player === p.player && t.type === 'P') {
+                } else if (t.player === p.player && t.type === 'P') {
                     if (State.count(p.player, 'V') === 0) moves.push({ idx: tIdx, type: 'special-promote' });
                 }
             }
             moves.push(...this.getChainJumps(idx, idx));
-        }
-        else if (p.type === 'V') {
+        } else if (p.type === 'V') {
             [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dr,dc]) => {
                 for(let k=1; k<=2; k++) {
                     let tIdx = Utils.idx(r+dr*k, c+dc*k, State.size);
@@ -592,10 +587,8 @@ const Logic = {
         }
         return moves;
     },
-
     checkEncirclement(idx) {
-        let events = [];
-        let me = State.getCell(idx);
+        let events = []; let me = State.getCell(idx);
         Logic.getNeighbors(idx).forEach(nIdx => {
             let victim = State.getCell(nIdx);
             if (victim.type === 'V' && victim.player !== me.player && victim.player !== 0) {
@@ -610,14 +603,11 @@ const Logic = {
         });
         return events;
     },
-
     isSetupZone(idx, pid) {
-        const {r, c} = Utils.coords(idx, State.size);
-        const s = State.size;
+        const {r, c} = Utils.coords(idx, State.size); const s = State.size;
         if (pid === 1) return r <= 3 && c <= 2;
-        if (State.players === 2) {
-             if (pid === 2) return r >= s-4 && c >= s-3;
-        } else {
+        if (State.players === 2) { if (pid === 2) return r >= s-4 && c >= s-3; } 
+        else {
              if (pid === 2) return r <= 3 && c >= s-3;
              if (pid === 3) return r >= s-4 && c >= s-3;
              if (pid === 4) return r >= s-4 && c <= 2;
@@ -626,6 +616,7 @@ const Logic = {
     }
 };
 
+/* --- VIEW --- */
 const View = {
     notify(msg, type='neutral') {
         const box = document.getElementById('notifications');
@@ -634,7 +625,6 @@ const View = {
         box.appendChild(toast);
         setTimeout(() => { toast.style.animation = 'toast-out 0.3s ease-in forwards'; setTimeout(() => toast.remove(), 300); }, 3000);
     },
-
     renderGrid() {
         const b = document.getElementById('board');
         b.style.gridTemplateColumns = `repeat(${State.size}, 1fr)`;
@@ -647,19 +637,15 @@ const View = {
             b.appendChild(div);
         }
     },
-    
     renderPieces() {
         const cells = document.getElementById('board').children;
         document.querySelectorAll('.indicator').forEach(e => e.remove());
-        
         if (State.phase === 'setup') {
             for(let i=0; i<State.cells.length; i++) {
                 if (Logic.isSetupZone(i, State.activePlayer)) cells[i].classList.add('setup-valid');
                 else cells[i].classList.remove('setup-valid');
             }
-        } else {
-            for(let i=0; i<cells.length; i++) cells[i].classList.remove('setup-valid');
-        }
+        } else { for(let i=0; i<cells.length; i++) cells[i].classList.remove('setup-valid'); }
         
         State.cells.forEach((p, i) => {
             const cell = cells[i];
@@ -670,6 +656,7 @@ const View = {
                 el = document.createElement('div'); el.dataset.uid = p.uid; cell.appendChild(el);
             }
             el.className = `piece p${p.player} type-${p.type}`;
+            if (p.cd > 0) el.classList.add('cooldown'); else el.classList.remove('cooldown');
             if (State.phase === 'game' && p.player === State.activePlayer) el.classList.add('active-glow');
         });
 
@@ -682,40 +669,45 @@ const View = {
                 if (m.type === 'attack') typeClass = 'ind-attack';
                 else if (m.type.startsWith('special')) typeClass = 'ind-special';
                 if (typeClass !== 'ind-move' || State.showHints) {
-                    ind.className = `indicator ${typeClass}`;
-                    cells[m.idx].appendChild(ind);
+                    ind.className = `indicator ${typeClass}`; cells[m.idx].appendChild(ind);
                 }
             });
         } else { Array.from(cells).forEach(c => c.classList.remove('selected')); }
-
-        if (State.phase === 'setup' && State.selected !== null) cells[State.selected].classList.add('selected');
-        if (State.mode === 'dismantle' && State.selected !== null) cells[State.selected].classList.add('selected');
+        if ((State.phase === 'setup' || State.mode === 'dismantle') && State.selected !== null) cells[State.selected].classList.add('selected');
         this.updateHUD();
     },
-
     spawnGhost(idx, type, player) {
         const cell = document.getElementById('board').children[idx];
         if(!cell) return;
         let g = document.createElement('div'); g.className = `piece p${player} type-${type} ghost`;
         cell.appendChild(g); setTimeout(() => g.remove(), 750);
     },
-
+    toggleMobileRules() {
+        const left = document.getElementById('panel-left');
+        const right = document.getElementById('panel-right');
+        left.classList.toggle('show-rules');
+        right.classList.toggle('show-rules');
+    },
     updateHUD() {
         document.getElementById('badge').className = `badge p${State.activePlayer}`;
         document.getElementById('badge').innerText = `Игрок ${State.activePlayer}`;
         document.getElementById('turn-cnt').innerText = State.turn;
-        document.getElementById('phase-msg').innerText = State.phase === 'setup' ? "ПОДГОТОВКА" : "БОЙ";
         const c = document.getElementById('controls'); c.innerHTML = '';
 
         if (State.phase === 'setup') {
             let m = State.setupMeta[State.activePlayer];
             let btnT = document.createElement('button'); btnT.innerText = `БАШНЯ (${1-m.T})`; 
             btnT.disabled = m.T >= 1 || State.selected === null; btnT.onclick = () => Controller.doSetup('T');
+            
             let btnV = document.createElement('button'); btnV.innerText = `Офицер (${1-m.V})`;
             btnV.disabled = m.V >= 1 || State.selected === null; btnV.onclick = () => Controller.doSetup('V');
+            
+            let btnAuto = document.createElement('button'); btnAuto.className = 'btn-blue'; btnAuto.innerText = "АВТО";
+            btnAuto.onclick = () => Controller.autoSetup();
+
             let btnOk = document.createElement('button'); btnOk.className = 'btn-green'; btnOk.innerText = "ГОТОВО";
             btnOk.disabled = (m.T < 1 || m.V < 1); btnOk.onclick = () => Controller.endSetup();
-            c.append(btnT, btnV, btnOk);
+            c.append(btnT, btnV, btnAuto, btnOk);
         } else {
             let btnPass = document.createElement('button');
             let passes = State.passCounter[State.activePlayer];
@@ -741,12 +733,12 @@ const View = {
             btnEye.innerHTML = `<span class="material-icons">${State.showHints ? 'visibility' : 'visibility_off'}</span>`;
             btnEye.onclick = () => { State.showHints = !State.showHints; View.renderPieces(); };
             
-            // Only add Eye button here (others moved to left panel)
             c.append(btnPass, btnDis, btnUndo, btnEye);
         }
     }
 };
 
+/* --- CONTROLLER & ACTIONS --- */
 const Controller = {
     locked: false,
     handle(i) {
@@ -756,7 +748,6 @@ const Controller = {
             if (p.player === State.activePlayer && p.type === 'P') { State.selected = i; View.renderPieces(); }
             return;
         }
-
         if (State.mode === 'dismantle') {
             if (Logic.getNeighbors(State.selected).includes(i) && State.getCell(i).type === 0) {
                 Actions.dismantle(State.selected, i);
@@ -771,31 +762,43 @@ const Controller = {
             State.mode = null; State.selected = null; View.renderPieces();
             return;
         }
-
         let cell = State.getCell(i);
         if (State.selected !== null) {
             let moves = Logic.getValidMoves(State.selected);
             let move = moves.find(m => m.idx === i);
             if (move) { Actions.execute(State.selected, i, move.type); return; }
         }
-
         if (cell.player === State.activePlayer) {
             State.selected = i; State.mode = null;
             if (cell.type === 'T') { State.mode = 'sacrifice'; View.notify("Выберите жертву рядом"); }
             View.renderPieces();
         } else { State.selected = null; View.renderPieces(); }
     },
-
     doSetup(type) {
         let p = State.getCell(State.selected);
         if(type==='T') State.setupMeta[State.activePlayer].T++; else State.setupMeta[State.activePlayer].V++;
         p.type = type; State.selected = null; View.renderPieces();
     },
-
+    autoSetup() {
+        let meta = State.setupMeta[State.activePlayer];
+        let candidates = State.cells.map((c, idx) => ({...c, idx}))
+            .filter(c => c.player === State.activePlayer && c.type === 'P' && Logic.isSetupZone(c.idx, State.activePlayer));
+        if (candidates.length < 2) return;
+        if (meta.T === 0) {
+            let r = Math.floor(Math.random() * candidates.length);
+            let tIdx = candidates[r].idx; State.cells[tIdx].type = 'T'; meta.T = 1; candidates.splice(r, 1);
+        }
+        if (meta.V === 0 && candidates.length > 0) {
+            let r = Math.floor(Math.random() * candidates.length);
+            let vIdx = candidates[r].idx; State.cells[vIdx].type = 'V'; meta.V = 1;
+        }
+        this.endSetup();
+    },
     endSetup() {
         let idx = State.activePlayersList.indexOf(State.activePlayer);
         let next = State.activePlayersList[(idx + 1) % State.activePlayersList.length];
-        if (next < State.activePlayer) { State.phase = 'game'; State.activePlayer = 1; State.turn = 1; } else { State.activePlayer = next; }
+        if (next === State.activePlayersList[0]) { State.phase = 'game'; State.activePlayer = 1; State.turn = 1; } 
+        else { State.activePlayer = next; }
         State.selected = null; View.renderPieces();
     }
 };
@@ -804,24 +807,20 @@ const Actions = {
     async execute(from, to, type) {
         Controller.locked = true; State.pushHistory();
         const me = State.getCell(from); const target = State.getCell(to);
-
+        const victimPid = target.player; const killV = (target.type === 'V');
         if (type === 'attack') { View.spawnGhost(to, target.type, target.player); AudioEngine.play('attack'); }
         else if (type.startsWith('special')) { View.spawnGhost(to, target.type, target.player); View.spawnGhost(from, me.type, me.player); AudioEngine.play('special'); }
         else AudioEngine.play('move');
 
         if (type === 'special-promote') {
-            State.cells[to] = { type:'V', player: me.player, uid: me.uid }; 
-            State.cells[from] = { type:0, player:0, uid:null };
-            View.notify("Слияние: Рядовой повышен!");
+            State.cells[to] = { type:'V', player: me.player, uid: me.uid, cd:0 }; State.cells[from] = { type:0, player:0, uid:null, cd:0 }; View.notify("Слияние: Рядовой повышен!");
         } else if (type === 'special-tower') {
-             State.cells[to] = { type:'T', player: me.player, uid: me.uid }; 
-             State.cells[from] = { type:0, player:0, uid:null };
-             View.notify("Слияние: Новая Башня!");
+             State.cells[to] = { type:'T', player: me.player, uid: me.uid, cd:0 }; State.cells[from] = { type:0, player:0, uid:null, cd:0 }; View.notify("Слияние: Новая Башня!");
         } else {
             if (target.type === 'T') { View.notify(`БАШНЯ ИГРОКА ${target.player} ПАЛА!`, 'good'); AudioEngine.play('special'); }
-            State.cells[to] = { ...me }; State.cells[from] = { type:0, player:0, uid:null };
+            State.cells[to] = { ...me }; State.cells[from] = { type:0, player:0, uid:null, cd:0 };
+            if (type === 'attack' && killV) Actions.checkReinforcements(victimPid);
         }
-        
         State.passCounter[State.activePlayer] = 0; View.renderPieces();
 
         if (!type.startsWith('special') && me.type === 'P') {
@@ -830,45 +829,54 @@ const Actions = {
                 await Utils.wait(300);
                 events.forEach(ev => {
                     let v = State.getCell(ev.victim); View.spawnGhost(ev.victim, v.type, v.player);
-                    State.cells[ev.victim] = { type:0, player:0, uid:null }; AudioEngine.play('attack');
+                    State.cells[ev.victim] = { type:0, player:0, uid:null, cd:0 }; AudioEngine.play('attack');
                     if (ev.action === 'merge') {
                         let sac = State.getCell(ev.sac); View.spawnGhost(ev.sac, sac.type, sac.player);
-                        State.cells[ev.sac] = { type:0, player:0, uid:null };
+                        State.cells[ev.sac] = { type:0, player:0, uid:null, cd:0 };
                         State.getCell(ev.killer).type = 'V'; View.notify("КЛЕЩИ! Слияние!", 'good');
                     } else { View.notify("КЛЕЩИ! Враг уничтожен!", 'good'); }
+                    Actions.checkReinforcements(v.player);
                 });
                 View.renderPieces();
             }
         }
         Controller.locked = false; this.nextTurn();
     },
-
+    checkReinforcements(pid) {
+        let towers = State.cells.map((c, i) => ({...c, idx:i})).filter(c => c.player === pid && c.type === 'T');
+        towers.forEach(t => {
+            if (t.cd > 0) return;
+            let neighbors = Logic.getNeighbors(t.idx);
+            let empty = neighbors.find(n => State.getCell(n).type === 0);
+            if (empty !== undefined) {
+                State.cells[empty] = { type:'P', player: pid, uid: Utils.getUid(), cd:0 };
+                State.cells[t.idx].cd = 2; 
+                View.spawnGhost(empty, 'P', pid); setTimeout(() => View.notify(`Подкрепление Игрока ${pid}!`), 500);
+            }
+        });
+    },
     async moveTower(from, to) {
         State.pushHistory();
         let t = State.getCell(from); let sac = State.getCell(to);
         View.spawnGhost(to, sac.type, sac.player);
-        State.cells[to] = { ...t }; State.cells[from] = { type:0, player:0, uid:null };
-        State.passCounter[State.activePlayer] = 0;
-        View.renderPieces(); this.nextTurn();
+        State.cells[to] = { ...t }; State.cells[from] = { type:0, player:0, uid:null, cd:0 };
+        State.passCounter[State.activePlayer] = 0; View.renderPieces(); this.nextTurn();
     },
-
     dismantle(from, to) {
         State.pushHistory();
         let v = State.getCell(from); View.spawnGhost(from, 'V', v.player);
-        State.cells[from] = { type: 'P', player: v.player, uid: Utils.getUid() };
-        State.cells[to] = { type:'P', player: v.player, uid: Utils.getUid() };
+        State.cells[from] = { type: 'P', player: v.player, uid: Utils.getUid(), cd:0 };
+        State.cells[to] = { type:'P', player: v.player, uid: Utils.getUid(), cd:0 };
         State.mode = null; State.passCounter[State.activePlayer] = 0; AudioEngine.play('special');
+        Actions.checkReinforcements(v.player);
         View.notify("Понижение успешно"); View.renderPieces(); this.nextTurn();
     },
-
     undo() { if (State.popHistory()) { View.notify("Ход отменен", "special"); View.renderPieces(); } },
-
     pass() {
         State.pushHistory(); State.passCounter[State.activePlayer]++;
         if (State.passCounter[State.activePlayer] >= State.MAX_PASS) this.eliminate(State.activePlayer, "Предел пасов");
         else this.nextTurn();
     },
-
     eliminate(pid, reason="Уничтожен") {
         View.notify(`Игрок ${pid} выбывает: ${reason}`, 'bad'); AudioEngine.play('attack');
         State.cells.forEach(c => { if(c.player === pid) { c.type=0; c.player=0; } });
@@ -883,12 +891,10 @@ const Actions = {
             }, 600);
         } else { this.nextTurn(); }
     },
-
     nextTurn() {
+        State.cells.forEach(c => { if (c.player === State.activePlayer && c.cd > 0) c.cd--; });
         let losers = [];
-        State.activePlayersList.forEach(pid => {
-            if (!State.cells.some(c => c.player === pid && c.type === 'T')) losers.push(pid);
-        });
+        State.activePlayersList.forEach(pid => { if (!State.cells.some(c => c.player === pid && c.type === 'T')) losers.push(pid); });
         if (losers.length > 0) { losers.forEach(id => this.eliminate(id, "Потеря базы")); return; }
         let currIdx = State.activePlayersList.indexOf(State.activePlayer);
         State.activePlayer = State.activePlayersList[(currIdx+1) % State.activePlayersList.length];
@@ -899,34 +905,24 @@ const Actions = {
 
 const Game = {
     isLightMode: false,
-    
     start() {
         const s = parseInt(document.getElementById('s-size').value);
         const p = parseInt(document.getElementById('s-players').value);
         const a = document.getElementById('s-aggro').checked;
-        
-        AudioEngine.init();
-        AudioEngine.noiseBuffer = AudioEngine.createNoiseBuffer(); 
-
+        AudioEngine.init(); AudioEngine.noiseBuffer = AudioEngine.createNoiseBuffer(); 
         document.getElementById('modal').style.display = 'none';
         document.getElementById('game-layout').style.display = 'grid';
         State.init(s, p, a); View.renderGrid(); View.renderPieces();
     },
-    
-    toggleTheme() {
-        document.body.classList.toggle('theme-future');
-    },
-    
+    toggleTheme() { document.body.classList.toggle('theme-future'); },
     toggleMode() {
         this.isLightMode = !this.isLightMode;
-        if(this.isLightMode) document.body.classList.add('mode-light');
-        else document.body.classList.remove('mode-light');
+        if(this.isLightMode) document.body.classList.add('mode-light'); else document.body.classList.remove('mode-light');
     },
-
     toggleAudio() {
         AudioEngine.muted = !AudioEngine.muted;
         document.getElementById('icon-sound').innerText = AudioEngine.muted ? 'volume_off' : 'volume_up';
-        if(!AudioEngine.muted) AudioEngine.play('move'); // Test sound
+        if(!AudioEngine.muted) AudioEngine.play('move');
     }
 };
 </script>
